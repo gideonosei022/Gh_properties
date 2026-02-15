@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# settings.py
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest _framework',
     'rentals_app',
+    'rest_framework',
+    
 ]
+
+AUTH_USER_MODEL = 'rentals_app.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
