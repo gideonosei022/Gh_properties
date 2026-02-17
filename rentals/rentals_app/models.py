@@ -1,13 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# ------------------------------
+
 # Custom User Model
-# ------------------------------
+
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('owner', 'House Owner / Agent'),
-        ('tenant', 'Tenant'),
+        
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
 
@@ -15,9 +15,9 @@ class User(AbstractUser):
         return f"{self.username} ({self.role})"
 
 
-# ------------------------------
+
 # Property Listings
-# ------------------------------
+
 class Property(models.Model):
     PROPERTY_TYPE_CHOICES = (
         ('room', 'Room'),
@@ -40,9 +40,9 @@ class Property(models.Model):
         return f"{self.title} - {self.location} (${self.price})"
 
 
-# ------------------------------
+
 # Property Images
-# ------------------------------
+
 class PropertyImage(models.Model):
     property = models.ForeignKey('rentals_app.Property', on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='property_images/')
@@ -70,14 +70,15 @@ class Favorite(models.Model):
 # ------------------------------
 # Messages between Users
 # ------------------------------
-class UserMessage(models.Model):
-    sender = models.ForeignKey('rentals_app.User', on_delete=models.CASCADE, related_name='sent_messages')
-    receiver = models.ForeignKey('rentals_app.User', on_delete=models.CASCADE, related_name='received_messages')
-    property = models.ForeignKey('rentals_app.Property', on_delete=models.CASCADE, related_name='messages', null=True, blank=True)
+
+
+class Message(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='messages')
+    sender_name = models.CharField(max_length=100)
+    sender_email = models.EmailField()
     content = models.TextField()
     sent_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Message from {self.sender.username} to {self.receiver.username}"
-
+        return f"Message for {self.property.title} from {self.sender_name}"
