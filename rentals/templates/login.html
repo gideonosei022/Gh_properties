@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Owner Login{% endblock %}
+
+{% block content %}
+<h2>Owner / Agent Login</h2>
+<p>Login to manage your properties.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'owner_register' %}">Register here</a></p>
+{% endblock %}

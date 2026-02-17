@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Rental Property Platform{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        header { margin-bottom: 20px; }
+        nav a { margin-right: 10px; text-decoration: none; color: #333; }
+        nav a:hover { text-decoration: underline; }
+        hr { margin: 20px 0; }
+        form { max-width: 400px; }
+        button { padding: 5px 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏠 Rental Property Management System</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'property_list' %}">Home</a> |
+        <a href="{% url 'favorite_list' %}">Saved Properties</a> |
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'owner_dashboard' %}">Owner Dashboard</a> |
+            <a href="{% url 'owner_logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'owner_login' %}">Login</a> |
+            <a href="{% url 'owner_register' %}">Register</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>

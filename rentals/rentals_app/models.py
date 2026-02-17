@@ -35,6 +35,8 @@ class Property(models.Model):
     contact_phone = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to='property_images/', null=True, blank=True)  # <-- new field
+
 
     def __str__(self):
         return f"{self.title} - {self.location} (${self.price})"

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ property.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ property.title }}</h2>
+
+{% if property.image %}
+    <img src="{{ property.image.url }}" alt="{{ property.title }}" style="max-width: 400px; display:block; margin-bottom: 10px;">
+{% endif %}
+
+<p><strong>Location:</strong> {{ property.location }}</p>
+<p><strong>Price:</strong> ${{ property.price }}</p>
+<p><strong>Type:</strong> {{ property.property_type }}</p>
+<p><strong>Description:</strong> {{ property.description }}</p>
+<p><strong>Status:</strong> {% if property.is_available %}Available{% else %}Not Available{% endif %}</p>
+
+<hr>
+
+<h3>Contact Property Owner</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send Message</button>
+</form>
+{% endblock %}
+

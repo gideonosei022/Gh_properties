@@ -45,9 +45,12 @@ class PropertyForm(forms.ModelForm):
             'description',
             'is_available',
             'contact_email',
+            'image',
             'contact_phone',
         ]
 
+
+   
 
 # 5️⃣ Property Image Upload Form
 class PropertyImageForm(forms.ModelForm):

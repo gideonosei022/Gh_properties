@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Available Rental Properties{% endblock %}
+
+{% block content %}
+<h2>Available Rental Properties</h2>
+
+<h3>Search & Filter</h3>
+<form method="GET">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% for property in properties %}
+    <div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+        <h3><a href="{% url 'property_detail' property.pk %}">{{ property.title }}</a></h3>
+
+        {% if property.image %}
+            <img src="{{ property.image.url }}" alt="{{ property.title }}" style="max-width: 200px; display:block; margin-bottom: 10px;">
+        {% endif %}
+
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Type:</strong> {{ property.property_type }}</p>
+        <a href="{% url 'save_favorite' property.id %}">💖 Save Property</a>
+    </div>
+{% empty %}
+    <p>No properties available at the moment.</p>
+{% endfor %}
+{% endblock %}
+

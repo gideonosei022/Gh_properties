@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add / Edit Property{% endblock %}
+
+{% block content %}
+<h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Property Listing</h2>
+<p>Enter property details below:</p>
+
+<!-- FORM STARTS HERE -->
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.instance.image %}
+        <p>Current Image:</p>
+        <img src="{{ form.instance.image.url }}" alt="{{ form.instance.title }}" style="max-width: 300px;">
+    {% endif %}
+
+    <button type="submit">Save Property</button>
+</form>
+<!-- FORM ENDS HERE -->
+
+{% endblock %}
+
+

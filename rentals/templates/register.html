@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Owner Registration{% endblock %}
+
+{% block content %}
+<h2>Create Owner / Agent Account</h2>
+<p>Fill in the form below to register as a property owner or agent.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register Account</button>
+</form>
+
+<p>Already have an account? <a href="{% url 'owner_login' %}">Login here</a></p>
+{% endblock %}

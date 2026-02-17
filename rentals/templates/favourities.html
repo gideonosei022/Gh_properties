@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Saved Properties{% endblock %}
+
+{% block content %}
+<h2>Your Saved Properties</h2>
+
+{% for property in properties %}
+    <div>
+        <h3><a href="{% url 'property_detail' property.pk %}">{{ property.title }}</a></h3>
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+    </div>
+    <hr>
+{% empty %}
+    <p>You have not saved any properties yet.</p>
+{% endfor %}
+
+{% endblock %}

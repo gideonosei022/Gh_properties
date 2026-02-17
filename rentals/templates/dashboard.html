@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Owner Dashboard{% endblock %}
+
+{% block content %}
+<h2>Owner Dashboard</h2>
+<p>Manage your property listings below.</p>
+
+<a href="{% url 'create_property' %}">➕ Add New Property</a>
+<hr>
+
+{% for property in properties %}
+    <div>
+        <h3>{{ property.title }}</h3>
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Status:</strong> {% if property.is_available %}Available{% else %}Not Available{% endif %}</p>
+        <p>
+            <a href="{% url 'edit_property' property.pk %}">Edit</a> |
+            <a href="{% url 'delete_property' property.pk %}">Delete</a>
+        </p>
+    </div>
+    <hr>
+{% empty %}
+    <p>You have not added any properties yet.</p>
+{% endfor %}
+
+{% endblock %}
