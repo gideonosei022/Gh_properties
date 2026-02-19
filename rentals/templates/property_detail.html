@@ -2,25 +2,83 @@
 {% block title %}{{ property.title }}{% endblock %}
 
 {% block content %}
+
 <h2>{{ property.title }}</h2>
 
+<!-- ===================== -->
+<!-- PROPERTY IMAGES -->
+<!-- ===================== -->
+
 {% if property.image %}
-    <img src="{{ property.image.url }}" alt="{{ property.title }}" style="max-width: 400px; display:block; margin-bottom: 10px;">
+    <div style="margin-bottom:15px;">
+        <img src="{{ property.image.url }}" 
+             alt="{{ property.title }}" 
+             style="max-width:500px; width:100%; border-radius:8px;">
+    </div>
 {% endif %}
+
+<!-- Additional Images -->
+{% if property.images.all %}
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+        {% for image in property.images.all %}
+            <img src="{{ image.image.url }}" 
+                 alt="Property Image"
+                 style="width:150px; height:120px; object-fit:cover; border-radius:6px;">
+        {% endfor %}
+    </div>
+{% endif %}
+
+<hr>
+
+<!-- ===================== -->
+<!-- PROPERTY DETAILS -->
+<!-- ===================== -->
 
 <p><strong>Location:</strong> {{ property.location }}</p>
 <p><strong>Price:</strong> ${{ property.price }}</p>
 <p><strong>Type:</strong> {{ property.property_type }}</p>
-<p><strong>Description:</strong> {{ property.description }}</p>
-<p><strong>Status:</strong> {% if property.is_available %}Available{% else %}Not Available{% endif %}</p>
+<p><strong>Description:</strong></p>
+<p>{{ property.description }}</p>
+
+<p>
+<strong>Status:</strong> 
+{% if property.is_available %}
+    <span style="color:green;">Available</span>
+{% else %}
+    <span style="color:red;">Not Available</span>
+{% endif %}
+</p>
 
 <hr>
 
-<h3>Contact Property Owner</h3>
+<!-- ===================== -->
+<!-- OWNER CONTACT INFO -->
+<!-- ===================== -->
+
+<h3>Owner Contact Information</h3>
+<p><strong>Email:</strong> {{ property.contact_email }}</p>
+
+{% if property.contact_phone %}
+    <p><strong>Phone:</strong> {{ property.contact_phone }}</p>
+{% endif %}
+
+<hr>
+
+<!-- ===================== -->
+<!-- CONTACT OWNER FORM -->
+<!-- ===================== -->
+
+<h3>Send a Message to the Owner</h3>
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Send Message</button>
+    <button type="submit" 
+            style="padding:8px 15px; background:#007bff; color:white; border:none; border-radius:5px;">
+        Send Message
+    </button>
 </form>
+
 {% endblock %}
+
 

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Saved Properties{% endblock %}
+
+{% block content %}
+<h2>Your Saved Properties</h2>
+
+{% for property in properties %}
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:15px;">
+        <h3>
+            <a href="{% url 'property_detail' property.pk %}">
+                {{ property.title }}
+            </a>
+        </h3>
+
+        {% if property.image %}
+            <img src="{{ property.image.url }}" 
+                 alt="{{ property.title }}" 
+                 style="max-width:200px; display:block; margin-bottom:10px;">
+        {% endif %}
+
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+    </div>
+{% empty %}
+    <p>You have not saved any properties yet.</p>
+{% endfor %}
+
+{% endblock %}
+

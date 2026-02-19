@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Property, Message
+from .models import Property,  PropertyImage, Message
 from .forms import (
     OwnerRegistrationForm,
     OwnerLoginForm,
@@ -12,7 +12,6 @@ from .forms import (
     ContactOwnerForm,
     PropertySearchForm,
 )
-
 # -------------------------------
 # Owner Registration
 # -------------------------------
@@ -65,7 +64,7 @@ def owner_dashboard(request):
 @login_required
 def create_property(request):
     if request.method == "POST":
-        form = PropertyForm(request.POST)
+        form = PropertyForm(request.POST, request.FILES)  # ✅ add request.FILES
         if form.is_valid():
             property = form.save(commit=False)
             property.owner = request.user
@@ -77,19 +76,31 @@ def create_property(request):
     return render(request, "property_form.html", {"form": form})
 
 
+
+
+
 @login_required
 def edit_property(request, pk):
     property = get_object_or_404(Property, pk=pk, owner=request.user)
 
     if request.method == "POST":
-        form = PropertyForm(request.POST, instance=property)
+        form = PropertyForm(request.POST, request.FILES, instance=property)
+
         if form.is_valid():
             form.save()
+
+            # ✅ Handle multiple image upload
+            images = request.FILES.getlist('images')
+            for image in images:
+                PropertyImage.objects.create(property=property, image=image)
+
             return redirect("owner_dashboard")
     else:
         form = PropertyForm(instance=property)
 
-    return render(request, "property_form.html", {"form": form})
+    return render(request, "property_form.html", {"form": form, "property": property})
+
+
 
 
 @login_required
@@ -153,3 +164,5 @@ def favorite_list(request):
     favorites = request.session.get("favorites", [])
     properties = Property.objects.filter(id__in=favorites)
     return render(request, "favorites.html", {"properties": properties})
+
+
